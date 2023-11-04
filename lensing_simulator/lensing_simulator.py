@@ -11,7 +11,7 @@ def main():
     # Arguments
     parser = ArgumentParser(prog = "LensingSimulator", description = 'Puts an image through the gravitational lensing of an inputted mass') 
     parser.add_argument('image_file', type = argparse.FileType("r"), help = "Image File to be Lensed")
-    parser.add_argument('output_name', type = str, help = "Name of the image file that will be output")
+    parser.add_argument('output_file', type = argparse.FileType("w"), help = "Name of the image file that will be output (do not put a file extension)")
     parser.add_argument('image_size', type = float, help = "Scale to change size of Image", default = 1)
     parser.add_argument('mass', type = float, help = "The Mass of the Lensing Object")
     parser.add_argument('camera_to_mass', type = float, help = "The Distance from the Observer to the Mass")
@@ -37,7 +37,7 @@ def main():
     x = args.output_image_size_x
     y = args.output_image_size_y
     output = Image.new("RGB", (x, y))
-    output_name = args.output_name
+    output_file = args.output_file
     near_clipping_plane_distance = args.near_clipping_place_distance
     time_step = args.time_step
     time_limit = args.time_step_limit
@@ -54,7 +54,8 @@ def main():
     print("Step 1: Generating rays")
     for i in range(0, x):
         # Print progress
-        print(f"{i * y} / {x * y}")
+        if i % (x // 10) == 0:
+            print(f"{i * y} / {x * y}")
         # Create list for this row
         rays.append(list())
         # Calculate the height of this row
@@ -73,7 +74,7 @@ def main():
     print("Step 2: Tracing rays")
     while num_hit < x * y and t < time_limit:
         for i in range(0, x):
-            if (t % 100 == 0):
+            if (t % 10000000 == 0):
                 print(f"{num_hit} / {x * y}")
             for j in range(0, y):
                 photon = rays[i][j]
@@ -95,7 +96,8 @@ def main():
                         output.putpixel((i, j), (255, 255, 255))
                         photon.hit = True
                         num_hit += 1
-    output.save(output_name + ".jpg")
+    output_file.write('\n'.join(str(args).strip("Namespace()").split(", ")))
+    output.save(output_file.name + ".jpg")
     output.show()
 
 main()
