@@ -66,10 +66,13 @@ def main():
             rays[i].append(Photon(direction, direction / numpy.linalg.norm(direction), time_step))
 
     # Trace rays
-    all_hit = False
+    num_hit = 0
     t = 0
-    while not all_hit and t < time_limit:
+    print("Step 2: Tracing rays")
+    while num_hit < x * y and t < time_limit:
         for i in range(0, x):
+            if (t % 100 == 0):
+                print(f"{num_hit} / {x * y}")
             for j in range(0, y):
                 photon = rays[i][j]
                 if not photon.hit:
@@ -82,11 +85,13 @@ def main():
                         if (hit_x < image_x_length or hit_x > -image_x_length) and (hit_y < image_y_length or hit_y > -image_y_length):
                             image_x = int((hit_x + 0.5) * image_x_length)
                             image_y = int((hit_y + 0.5) * image_y_length)
-                            output.putpixel((x, y), image.getpixel((x, y)))
-                            photon.hit = True
+                            output.putpixel((i, j), image.getpixel((i, j)))
+                        photon.hit = True
+                        num_hit += 1
                     # If the photon has collided with the mass
                     if numpy.linalg.norm(photon.position - mass_position) < radius:
-                        output.putpixel((x, y), (255, 255, 255))
+                        output.putpixel((i, j), (255, 255, 255))
                         photon.hit = True
+                        num_hit += 1
 
 main()
