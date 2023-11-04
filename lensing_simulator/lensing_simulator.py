@@ -2,6 +2,7 @@ import argparse
 import numpy
 from argparse import ArgumentParser
 from gooey import Gooey
+from PIL import Image
 
 @Gooey
 def main():
@@ -13,6 +14,7 @@ def main():
     parser.add_argument('mass_to_object', type = float, help = "Distance from the Lensing Mass to the Lensed Image")
     parser.add_argument('mass_radius', type = float, help = "The Radius of the Lensing Mass")
     args = parser.parse_args()
-    print(args.image_file)
+    image = Image.open(args.image_file.name)
+    image.show()
 
 main()
