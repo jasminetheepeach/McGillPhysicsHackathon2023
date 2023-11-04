@@ -11,6 +11,7 @@ def main():
     # Arguments
     parser = ArgumentParser(prog = "LensingSimulator", description = 'Puts an image through the gravitational lensing of an inputted mass') 
     parser.add_argument('image_file', type = argparse.FileType("r"), help = "Image File to be Lensed")
+    parser.add_argument('output_name', type = str, help = "Name of the image file that will be output")
     parser.add_argument('image_size', type = float, help = "Scale to change size of Image", default = 1)
     parser.add_argument('mass', type = float, help = "The Mass of the Lensing Object")
     parser.add_argument('camera_to_mass', type = float, help = "The Distance from the Observer to the Mass")
@@ -36,6 +37,7 @@ def main():
     x = args.output_image_size_x
     y = args.output_image_size_y
     output = Image.new("RGB", (x, y))
+    output_name = args.output_name
     near_clipping_plane_distance = args.near_clipping_place_distance
     time_step = args.time_step
     time_limit = args.time_step_limit
@@ -93,5 +95,7 @@ def main():
                         output.putpixel((i, j), (255, 255, 255))
                         photon.hit = True
                         num_hit += 1
+    output.save(output_name + ".jpg")
+    output.show()
 
 main()
