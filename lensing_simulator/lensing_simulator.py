@@ -73,9 +73,9 @@ def main():
     t = 0
     print("Step 2: Tracing rays")
     while num_hit < x * y and t < time_limit:
+        if t % 5 == 0:
+            print(f"{num_hit} / {x * y}, t={t}")
         for i in range(0, x):
-            if (t % 1000 == 0):
-                print(f"{num_hit} / {x * y}")
             for j in range(0, y):
                 photon = rays[i][j]
                 if not photon.hit:
