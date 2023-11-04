@@ -74,7 +74,7 @@ def main():
     print("Step 2: Tracing rays")
     while num_hit < x * y and t < time_limit:
         for i in range(0, x):
-            if (t % 10000000 == 0):
+            if (t % 1000 == 0):
                 print(f"{num_hit} / {x * y}")
             for j in range(0, y):
                 photon = rays[i][j]
@@ -88,7 +88,7 @@ def main():
                         if (hit_x < image_x_length or hit_x > -image_x_length) and (hit_y < image_y_length or hit_y > -image_y_length):
                             image_x = int((hit_x + 0.5) * image_x_length)
                             image_y = int((hit_y + 0.5) * image_y_length)
-                            output.putpixel((i, j), image.getpixel((i, j)))
+                            output.putpixel((i, j), image.getpixel((image_x, image_y)))
                         photon.hit = True
                         num_hit += 1
                     # If the photon has collided with the mass
@@ -96,6 +96,7 @@ def main():
                         output.putpixel((i, j), (255, 255, 255))
                         photon.hit = True
                         num_hit += 1
+        t += 1
     output_file.write('\n'.join(str(args).strip("Namespace()").split(", ")))
     output.save(output_file.name + ".jpg")
     output.show()
