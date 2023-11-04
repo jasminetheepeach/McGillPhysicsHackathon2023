@@ -7,6 +7,7 @@ class Photon:
         self.position = position
         self.velocity = velocity
         self.time_step = time_step
+        self.hit = False
 
     def step(self, mass: float, mass_position):
         # acceleration = (Photon.G * mass) / numpy.linalg.norm(self.position - mass_position) ** 2
