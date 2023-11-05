@@ -70,14 +70,16 @@ def main():
             direction = numpy.array([x_position, y_position, near_clipping_plane_distance])
             # Instantiate and add to list
             rays[i].append(Photon(direction, direction / numpy.linalg.norm(direction), time_step))
+    print("Finished.")
 
     # Trace rays
     num_hit = 0
+    total_rays = x * y
     t = 0
     print("Step 2: Tracing rays")
-    while num_hit < x * y and t < time_limit:
+    while num_hit < total_rays and t < time_limit:
         if t % 5 == 0:
-            print(f"{num_hit} / {x * y}, t={t}")
+            print(f"{num_hit} / {total_rays}, t={t}")
         for i in range(0, x):
             for j in range(0, y):
                 photon = rays[i][j]
@@ -89,6 +91,7 @@ def main():
                         hit_x = photon.position[0]
                         hit_y = photon.position[1]
                         if (hit_x < image_x_length and hit_x > -image_x_length) and (hit_y < image_y_length and hit_y > -image_y_length):
+                            # Translate from world space coordinates to image space coordinates
                             image_x = int(((hit_x + image_x_length) / (2 * image_x_length)) * image.size[0])
                             image_y = int(((hit_y + image_y_length) / (2 * image_y_length)) * image.size[1])
                             output.putpixel((j, i), image.getpixel((image_x, image_y)))
@@ -96,10 +99,12 @@ def main():
                         num_hit += 1
                     # If the photon has collided with the mass
                     if numpy.linalg.norm(photon.position - mass_position) < radius:
-                        output.putpixel((i, j), (255, 255, 255))
+                        output.putpixel((j, i), (255, 255, 255))
                         photon.hit = True
                         num_hit += 1
         t += 1
+    print("Finished.")
+
     output.save(output_file.name + ".jpg")
     output.show()
 
