@@ -1,0 +1,15 @@
+image_file=<_io.TextIOWrapper name='C:\\Users\\jasmi\\Documents\\McGillPhysicsHackathon2023\\images\\McGillPhysicsHackathonLogo.jpg' mode='r' encoding='cp1252'>
+output_file=<_io.TextIOWrapper name='C:\\Users\\jasmi\\Documents\\McGillPhysicsHackathon2023\\images\\McGillPhysicsHackathonLogoOutput' mode='w' encoding='cp1252'>
+image_size=10.0
+mass=0.5
+camera_to_mass=3.0
+mass_to_object=3.0
+mass_radius=0.25
+mass_x=0.0
+mass_y=0.0
+output_image_size_x=500
+output_image_size_y=500
+time_step=0.1
+time_step_limit=1000.0
+field_of_view=135.0
+near_clipping_plane_distance=1.0
