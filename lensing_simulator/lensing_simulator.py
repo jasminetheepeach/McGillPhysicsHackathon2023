@@ -44,7 +44,7 @@ def main():
 
     # Calculate length of image
     image_x_length = image_scale / 2
-    image_y_length = (image.size[0] / image.size[1]) * (image_scale / 2)
+    image_y_length = (image.size[1] / image.size[0]) * (image_scale / 2)
 
     # Rat Tracing ???????
     # Generate rays
@@ -86,9 +86,12 @@ def main():
                         hit_x = photon.position[0]
                         hit_y = photon.position[1]
                         if (hit_x < image_x_length or hit_x > -image_x_length) and (hit_y < image_y_length or hit_y > -image_y_length):
-                            image_x = int((hit_x + 0.5) * image_x_length)
-                            image_y = int((hit_y + 0.5) * image_y_length)
-                            output.putpixel((i, j), image.getpixel((image_x, image_y)))
+                            try:
+                                image_x = int(((hit_x + image_x_length) / (2 * image_x_length)) * image.size[0])
+                                image_y = int(((hit_y + image_y_length) / (2 * image_y_length)) * image.size[1])
+                                output.putpixel((i, j), image.getpixel((image_x, image_y)))
+                            except Exception as e:
+                                print(image_x, image_y)
                         photon.hit = True
                         num_hit += 1
                     # If the photon has collided with the mass
