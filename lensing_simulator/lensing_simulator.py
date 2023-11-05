@@ -20,7 +20,7 @@ def main():
     parser.add_argument('-x', '--output_image_size_x', type = int, help = "The X Co-ordinate of the Outputted Image", default = 500)
     parser.add_argument('-y', '--output_image_size_y', type = int, help = "The Y Co-ordinate of the Outputted Image", default = 500)
     parser.add_argument('-t', '--time_step', type = float, help = "The time step. Lower value results in a more accurate simulation but longer time taken.", default = 0.01)
-    parser.add_argument('-l', '--time_step_limit', type = float, help = "The limit of the number of time steps allowed to occur", default = 1000000000)
+    parser.add_argument('-l', '--time_step_limit', type = float, help = "The limit of the number of time steps allowed to occur", default = 1000)
     parser.add_argument('-f', '--field_of_view', type = float, help = "The horizontal angle viewed", default = 135)
     parser.add_argument('-p', '--near_clipping_place_distance', type = float, help = "The distance to the near clipping place", default = 1)
 
@@ -100,6 +100,10 @@ def main():
                     # If the photon has collided with the mass
                     if numpy.linalg.norm(photon.position - mass_position) < radius:
                         output.putpixel((j, i), (255, 255, 255))
+                        photon.hit = True
+                        num_hit += 1
+                    # If the photon flew too far off into the space
+                    if numpy.linalg.norm(photon.position) > 1.5 * image_distance:
                         photon.hit = True
                         num_hit += 1
         t += 1
