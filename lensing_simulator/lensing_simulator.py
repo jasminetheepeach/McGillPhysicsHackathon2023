@@ -23,7 +23,7 @@ def main():
     parser.add_argument('-y', '--output_image_size_y', type = int, help = "The Y co-ordinate of the outputted image", default = 500)
     parser.add_argument('-t', '--time_step', type = float, help = "The time step. Lower value results in a more accurate simulation but longer time taken.", default = 0.01)
     parser.add_argument('-l', '--time_step_limit', type = float, help = "The limit of the number of time steps allowed to occur", default = 1000)
-    parser.add_argument('-f', '--field_of_view', type = float, help = "The horizontal angle viewed", default = 135)
+    parser.add_argument('-f', '--field_of_view', type = float, help = "The horizontal angle viewed", default = 100)
     parser.add_argument('-p', '--near_clipping_plane_distance', type = float, help = "The distance to the near clipping plane", default = 1)
 
     args = parser.parse_args()
