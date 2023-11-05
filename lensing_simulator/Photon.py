@@ -12,8 +12,7 @@ class Photon:
     def step(self, mass: float, mass_position):
         # acceleration = (Gravitational constant * mass / distance squared) * unit vector pointing towards the mass
         # acceleration = (G       * m     / ||p1 - p0|| ^ 2                                      ) * (p1 - p0) / ||p1 - p0||
-        # acceleration = ((Photon.G * mass) / numpy.linalg.norm(self.position - mass_position) ** 2) * ((self.position - mass_position) / numpy.linalg.norm(self.position - mass_position))
-        acceleration = 0
+        acceleration = ((Photon.G * mass) / numpy.linalg.norm(self.position - mass_position) ** 2) * ((self.position - mass_position) / numpy.linalg.norm(self.position - mass_position))
         self.velocity += acceleration * self.time_step
         self.position += self.velocity * self.time_step
 

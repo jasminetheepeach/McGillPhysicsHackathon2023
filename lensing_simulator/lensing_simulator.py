@@ -12,7 +12,7 @@ def main():
     parser = ArgumentParser(prog = "LensingSimulator", description = 'Puts an image through the gravitational lensing of an inputted mass') 
     parser.add_argument('image_file', type = argparse.FileType("r"), help = "Image File to be Lensed")
     parser.add_argument('output_file', type = argparse.FileType("w"), help = "Name of the image file that will be output (do not put a file extension)")
-    parser.add_argument('image_size', type = float, help = "Scale to change size of Image", default = 1)
+    parser.add_argument('image_size', type = float, help = "Scale to change size of Image", default = 4)
     parser.add_argument('mass', type = float, help = "The Mass of the Lensing Object")
     parser.add_argument('camera_to_mass', type = float, help = "The Distance from the Observer to the Mass")
     parser.add_argument('mass_to_object', type = float, help = "Distance from the Lensing Mass to the Lensed Image")
@@ -28,7 +28,7 @@ def main():
 
     # Extract arguments
     image = Image.open(args.image_file.name)
-    image_scale = args.image_size
+    image_size = args.image_size
     image_distance = args.camera_to_mass + args.mass_to_object
     mass = args.mass
     radius = args.mass_radius
@@ -42,9 +42,12 @@ def main():
     time_step = args.time_step
     time_limit = args.time_step_limit
 
+    # Log arguments
+    output_file.write('\n'.join(str(args).strip("Namespace()").split(", ")))
+
     # Calculate length of image
-    image_x_length = image_scale / 2
-    image_y_length = (image.size[1] / image.size[0]) * (image_scale / 2)
+    image_x_length = image_size / 2
+    image_y_length = (image.size[1] / image.size[0]) * (image_size / 2)
 
     # Rat Tracing ???????
     # Generate rays
@@ -85,13 +88,10 @@ def main():
                         # Determine if the ray is in the bounds of the image
                         hit_x = photon.position[0]
                         hit_y = photon.position[1]
-                        if (hit_x < image_x_length or hit_x > -image_x_length) and (hit_y < image_y_length or hit_y > -image_y_length):
-                            try:
-                                image_x = int(((hit_x + image_x_length) / (2 * image_x_length)) * image.size[0])
-                                image_y = int(((hit_y + image_y_length) / (2 * image_y_length)) * image.size[1])
-                                output.putpixel((i, j), image.getpixel((image_x, image_y)))
-                            except Exception as e:
-                                print(image_x, image_y)
+                        if (hit_x < image_x_length and hit_x > -image_x_length) and (hit_y < image_y_length and hit_y > -image_y_length):
+                            image_x = int(((hit_x + image_x_length) / (2 * image_x_length)) * image.size[0])
+                            image_y = int(((hit_y + image_y_length) / (2 * image_y_length)) * image.size[1])
+                            output.putpixel((j, i), image.getpixel((image_x, image_y)))
                         photon.hit = True
                         num_hit += 1
                     # If the photon has collided with the mass
@@ -100,7 +100,6 @@ def main():
                         photon.hit = True
                         num_hit += 1
         t += 1
-    output_file.write('\n'.join(str(args).strip("Namespace()").split(", ")))
     output.save(output_file.name + ".jpg")
     output.show()
 
