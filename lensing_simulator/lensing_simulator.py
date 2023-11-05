@@ -38,7 +38,7 @@ def main():
     y = args.output_image_size_y
     output = Image.new("RGB", (x, y))
     output_file = args.output_file
-    near_clipping_plane_distance = args.near_clipping_place_distance
+    near_clipping_plane_distance = args.near_clipping_plane_distance
     time_step = args.time_step
     time_limit = args.time_step_limit
 
@@ -109,7 +109,7 @@ def main():
         t += 1
     print("Finished.")
 
-    output.save(output_file.name + ".jpg")
+    output.save(output_file.name + ".jpg", quality = 95)
     output.show()
 
 main()
