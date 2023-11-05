@@ -10,15 +10,17 @@ from PIL import Image
 def main():
     # Arguments
     parser = ArgumentParser(prog = "LensingSimulator", description = 'Puts an image through the gravitational lensing of an inputted mass') 
-    parser.add_argument('image_file', type = argparse.FileType("r"), help = "Image File to be Lensed")
-    parser.add_argument('output_file', type = argparse.FileType("w"), help = "Name of the image file that will be output (do not put a file extension)")
-    parser.add_argument('image_size', type = float, help = "Scale to change size of Image", default = 4)
-    parser.add_argument('mass', type = float, help = "The Mass of the Lensing Object")
-    parser.add_argument('camera_to_mass', type = float, help = "The Distance from the Observer to the Mass")
-    parser.add_argument('mass_to_object', type = float, help = "Distance from the Lensing Mass to the Lensed Image")
-    parser.add_argument('mass_radius', type = float, help = "The Radius of the Lensing Mass")
-    parser.add_argument('-x', '--output_image_size_x', type = int, help = "The X Co-ordinate of the Outputted Image", default = 500)
-    parser.add_argument('-y', '--output_image_size_y', type = int, help = "The Y Co-ordinate of the Outputted Image", default = 500)
+    parser.add_argument('image_file', type = argparse.FileType("r"), help = "Image file to be lensed (.jpg)")
+    parser.add_argument('output_file', type = argparse.FileType("w"), help = "Name of the image file that will be output (no file extension)")
+    parser.add_argument('image_size', type = float, help = "Horizontal size of the image", default = 4)
+    parser.add_argument('mass', type = float, help = "The mass of the lensing object")
+    parser.add_argument('camera_to_mass', type = float, help = "Distance from the observer to the mass")
+    parser.add_argument('mass_to_object', type = float, help = "Distance from the mass to the image")
+    parser.add_argument('mass_radius', type = float, help = "The radius of the lensing mass")
+    parser.add_argument('-mx', '--mass_x', type = float, help = "The X co-ordinate of the mass", default = 0)
+    parser.add_argument('-my', '--mass_y', type = float, help = "The Y co-ordinate of the mass", default = 0)
+    parser.add_argument('-x', '--output_image_size_x', type = int, help = "The X co-ordinate of the outputted image", default = 500)
+    parser.add_argument('-y', '--output_image_size_y', type = int, help = "The Y co-ordinate of the outputted image", default = 500)
     parser.add_argument('-t', '--time_step', type = float, help = "The time step. Lower value results in a more accurate simulation but longer time taken.", default = 0.01)
     parser.add_argument('-l', '--time_step_limit', type = float, help = "The limit of the number of time steps allowed to occur", default = 1000)
     parser.add_argument('-f', '--field_of_view', type = float, help = "The horizontal angle viewed", default = 135)
@@ -32,7 +34,7 @@ def main():
     image_distance = args.camera_to_mass + args.mass_to_object
     mass = args.mass
     radius = args.mass_radius
-    mass_position = numpy.array([0, 0, args.camera_to_mass])
+    mass_position = numpy.array([args.mass_x, args.mass_y, args.camera_to_mass])
     fov = args.field_of_view
     x = args.output_image_size_x
     y = args.output_image_size_y
