@@ -1,0 +1,15 @@
+image_file=<_io.TextIOWrapper name='C:\\Users\\Akash\\Documents\\McGillPhysicsHackathon2023\\profilepictures\\Sunset.jpg' mode='r' encoding='cp1252'>
+output_file=<_io.TextIOWrapper name='C:\\Users\\Akash\\Documents\\McGillPhysicsHackathon2023\\profilepictures\\test5' mode='w' encoding='cp1252'>
+image_size=10.0
+mass=0.025
+camera_to_mass=2.0
+mass_to_object=1.0
+mass_radius=0.25
+mass_x=1.0
+mass_y=-0.75
+output_image_size_x=100
+output_image_size_y=100
+time_step=0.1
+time_step_limit=1000.0
+field_of_view=90.0
+near_clipping_plane_distance=1.0
