@@ -46,6 +46,7 @@ def main():
 
     # Log arguments
     output_file.write('\n'.join(str(args).strip("Namespace()").split(", ")))
+    output_file.close()
 
     # Calculate length of image
     image_x_length = image_size / 2
@@ -101,11 +102,11 @@ def main():
                         num_hit += 1
                     # If the photon has collided with the mass
                     if numpy.linalg.norm(photon.position - mass_position) < radius:
-                        output.putpixel((j, i), (255, 255, 255))
+                        output.putpixel((j, i), (0, 0, 0))
                         photon.hit = True
                         num_hit += 1
                     # If the photon flew too far off into the space
-                    if numpy.linalg.norm(photon.position) > 1.5 * image_distance:
+                    if numpy.linalg.norm(photon.position) > 5 * image_distance:
                         photon.hit = True
                         num_hit += 1
         t += 1
@@ -114,4 +115,5 @@ def main():
     output.save(output_file.name + ".jpg", quality = 95)
     output.show()
 
-main()
+if __name__ == "__main__":
+    main()
